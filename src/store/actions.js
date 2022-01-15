@@ -2,20 +2,6 @@ import axios from "axios";
 
 import { FETCH_ALBUMS, FETCH_USER } from "./actionTypes";
 
-const fetchUser = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/user`,
-      {
-        withCredentials: true,
-      }
-    );
-    dispatch(getUser(data.user));
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const getUser = (data) => {
   return {
     type: FETCH_USER,
@@ -23,26 +9,15 @@ const getUser = (data) => {
   };
 };
 
-const logoutUser = () => async (dispatch) => {
+const login = (loginData) => async (dispatch) => {
   try {
-    await axios.get(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
-      withCredentials: true,
-    });
-    dispatch(getUser({}));
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const login = (data) => async (dispatch) => {
-  try {
-    await axios.post(
+    const { data } = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/artist/login`,
-      { ...data },
+      { ...loginData },
       { withCredentials: true }
     );
-
-    dispatch(fetchUser());
+    // console.log(data);
+    dispatch(getUser(data));
   } catch (err) {
     console.log(err);
   }
@@ -70,4 +45,4 @@ const fetchAlbums = () => async (dispatch) => {
   }
 };
 
-export { fetchAlbums, getAlbums, getUser, fetchUser, login, logoutUser };
+export { fetchAlbums, getAlbums, getUser, login };

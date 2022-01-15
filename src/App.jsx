@@ -23,15 +23,15 @@ const App = () => {
           <LandingPage />
         </Route>
 
-        <Route path="/login" exact>
+        <Route path="/login">
           <LoginPage />
         </Route>
 
-        <Route path="/dashboard" exact>
+        <Route path="/dashboard">
           <DashboardPage />
         </Route>
 
-        <Route path="/albums/:id" exact>
+        <Route path="/albums/:id">
           <AlbumPage />
         </Route>
       </Switch>
