@@ -31,7 +31,7 @@ const App = () => {
           <DashboardPage />
         </Route>
 
-        <Route path="/:id" exact>
+        <Route path="/albums/:id" exact>
           <AlbumPage />
         </Route>
       </Switch>
