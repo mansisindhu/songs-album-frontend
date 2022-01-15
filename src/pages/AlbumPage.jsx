@@ -22,7 +22,7 @@ const AlbumPage = () => {
   useEffect(() => {
     getAlbum();
   }, []);
-  
+
   return (
     <>
       {album ? (

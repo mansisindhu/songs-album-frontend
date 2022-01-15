@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getUser } from "../store/actions";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  const history = useHistory();
   const onLogout = () => {
     dispatch(getUser({}));
+    history.push("/");
   };
 
   return (

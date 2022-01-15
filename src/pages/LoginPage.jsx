@@ -73,6 +73,7 @@ const LoginPage = () => {
             padding: 12px;
             font-size: 16px;
             width: 100%;
+            border: 1px solid black;
           }
 
           .submit {

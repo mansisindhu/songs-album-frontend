@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { FETCH_ALBUMS, FETCH_USER } from "./actionTypes";
 
 const getUser = (data) => {
@@ -16,7 +15,6 @@ const login = (loginData) => async (dispatch) => {
       { ...loginData },
       { withCredentials: true }
     );
-    // console.log(data);
     dispatch(getUser(data));
   } catch (err) {
     console.log(err);
@@ -38,7 +36,6 @@ const fetchAlbums = () => async (dispatch) => {
         withCredentials: true,
       }
     );
-    console.log(data);
     dispatch(getAlbums(data));
   } catch (err) {
     console.log(err);
