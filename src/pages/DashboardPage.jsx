@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../store/actions";
 
 const DashboardPage = () => {
   const user = useSelector((state) => state.user);
@@ -19,13 +20,16 @@ const DashboardPage = () => {
     });
   };
 
+  const dispatch = useDispatch();
+
   const updateData = async () => {
-    await axios.patch(
+    const { data } = await axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/artist/${user._id}`,
       { ...userData },
       { withCredentials: true }
     );
 
+    dispatch(getUser(data));
     window.alert("Updated");
   };
 
