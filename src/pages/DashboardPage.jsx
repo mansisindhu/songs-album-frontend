@@ -96,7 +96,6 @@ const DashboardPage = () => {
             margin: 20px 80px;
             display: flex;
             gap: 32px;
-            flex-wrap: wrap;
           }
 
           .data {
