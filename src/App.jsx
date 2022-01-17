@@ -7,14 +7,8 @@ import AlbumPage from "./pages/AlbumPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
-import { fetchAlbums } from "./store/actions";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAlbums());
-  }, []);
   return (
     <div className="App">
       <Navbar />

@@ -28,10 +28,7 @@ const LandingPage = () => {
 
   const [queryObj, setQueryObj] = useState(null);
 
-  const query = new URLSearchParams(queryObj).toString();
-  const [currentPage, setCurrentPage] = useState(1);
   const handlePageNumber = (page) => {
-    setCurrentPage(page);
     setQueryObj((prev) => {
       return {
         ...prev,
@@ -78,7 +75,7 @@ const LandingPage = () => {
 
       return arr;
     });
-  }, [totalPages]);
+  }, [totalPages, data]);
 
   return (
     <>
