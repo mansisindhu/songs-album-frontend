@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
+import { fetchAlbums } from "../store/actions";
 
 const LandingPage = () => {
   const data = useSelector((state) => state.albums);
+  const totalPages = useSelector((state) => state.totalPages);
   const [search, setSearch] = useState("");
 
   const handleSearch = (e) => {
@@ -24,28 +26,88 @@ const LandingPage = () => {
     setAlbums(newData);
   };
 
-  const debounced = useDebouncedCallback(searchHandler, 500);
+  const [queryObj, setQueryObj] = useState(null);
+
+  const query = new URLSearchParams(queryObj).toString();
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageNumber = (page) => {
+    setCurrentPage(page);
+    setQueryObj((prev) => {
+      return {
+        ...prev,
+        page,
+      };
+    });
+  };
+
+  const handleFilters = (e) => {
+    const { name, value } = e.target;
+    setQueryObj((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (queryObj) {
+      const params = new URLSearchParams(queryObj).toString();
+
+      if (params) {
+        history.push({ search: params });
+      }
+    }
+
+    const getParams = history.location.search;
+    dispatch(fetchAlbums(getParams));
+  }, [queryObj, history]);
+
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     setAlbums(data);
-  }, [data]);
+    setPages(() => {
+      const arr = [];
+      for (let i = 0; i < totalPages; i++) {
+        arr.push(i + 1);
+      }
 
-  useEffect(() => {
-    debounced();
-  }, [search]);
+      return arr;
+    });
+  }, [totalPages]);
 
   return (
     <>
       <div className="albums-main">
-        <div className="search">
+        <div className="filters">
           <input
             value={search}
             onChange={handleSearch}
             type="text"
             placeholder="Search albums"
           />
+          <div className="genre">
+            <select onChange={handleFilters} name="genre">
+              <option value="">Choose genre</option>
+              <option value="Soundtrack">Soundtrack</option>
+              <option value="Hip-Hop">Hip-Hop</option>
+              <option value="Indian-pop">Indian-pop</option>
+              <option value="Filmi">Filmi</option>
+              <option value="Classical">Classical</option>
+            </select>
+          </div>
+          <div className="sort">
+            <select onChange={handleFilters} name="sortBy">
+              <option value="">Sort By Year</option>
+              <option value="new-to-old">New to old</option>
+              <option value="old-to-new">Old to new</option>
+            </select>
+          </div>
         </div>
-        <div className="genre"></div>
 
         <div className="albums">
           {albums.length ? (
@@ -66,10 +128,37 @@ const LandingPage = () => {
             <div>Sorry, no albums</div>
           )}
         </div>
+
+        <div className="pages">
+          {pages.map((el) => (
+            <button
+              key={el}
+              onClick={() => handlePageNumber(el)}
+              className="page-btn"
+            >
+              {el}
+            </button>
+          ))}
+        </div>
       </div>
 
       <style jsx>
         {`
+          .pages {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 24px;
+          }
+
+          .page-btn {
+            padding: 8px 12px;
+            border: none;
+            background-color: black;
+            color: white;
+          }
+
           .info {
             display: flex;
             justify-content: space-between;
@@ -84,7 +173,7 @@ const LandingPage = () => {
           .album-genre {
             color: gray;
           }
-          .search > input {
+          .filters > input {
             outline: none;
             border: 1px solid black;
             padding: 14px;
@@ -115,7 +204,7 @@ const LandingPage = () => {
             margin: 0 48px;
           }
 
-          .search {
+          .filters {
             margin-bottom: 24px;
           }
         `}
