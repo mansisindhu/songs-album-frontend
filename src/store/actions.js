@@ -35,11 +35,12 @@ const getPages = (data) => {
   };
 };
 
-const fetchAlbums = () => async (dispatch) => {
+const fetchAlbums = (query) => async (dispatch) => {
   try {
+    if (!query) query = "";
     const {
       data: { albums, totalPages },
-    } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/albums`, {
+    } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/albums${query}`, {
       withCredentials: true,
     });
     dispatch(getAlbums(albums));
