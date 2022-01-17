@@ -3,7 +3,7 @@ import { FETCH_ALBUMS, FETCH_USER, GET_TOTAL_PAGES } from "./actionTypes";
 const initState = {
   user: {},
   albums: [],
-  totalPages: null,
+  totalPages: 0,
 };
 
 const reducer = (state = initState, { type, payload }) => {
