@@ -1,8 +1,9 @@
-import { FETCH_ALBUMS, FETCH_USER } from "./actionTypes";
+import { FETCH_ALBUMS, FETCH_USER, GET_TOTAL_PAGES } from "./actionTypes";
 
 const initState = {
   user: {},
   albums: [],
+  totalPages: null,
 };
 
 const reducer = (state = initState, { type, payload }) => {
@@ -18,6 +19,13 @@ const reducer = (state = initState, { type, payload }) => {
       return {
         ...state,
         albums: [...payload],
+      };
+    }
+
+    case GET_TOTAL_PAGES: {
+      return {
+        ...state,
+        totalPages: payload,
       };
     }
 

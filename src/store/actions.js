@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_ALBUMS, FETCH_USER } from "./actionTypes";
+import { FETCH_ALBUMS, FETCH_USER, GET_TOTAL_PAGES } from "./actionTypes";
 
 const getUser = (data) => {
   return {
@@ -28,15 +28,22 @@ const getAlbums = (data) => {
   };
 };
 
+const getPages = (data) => {
+  return {
+    type: GET_TOTAL_PAGES,
+    payload: data,
+  };
+};
+
 const fetchAlbums = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/albums`,
-      {
-        withCredentials: true,
-      }
-    );
-    dispatch(getAlbums(data));
+    const {
+      data: { albums, totalPages },
+    } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/albums`, {
+      withCredentials: true,
+    });
+    dispatch(getAlbums(albums));
+    dispatch(getPages(totalPages));
   } catch (err) {
     console.log(err);
   }
