@@ -9,6 +9,7 @@ const DashboardPage = () => {
   const [userData, setUserData] = useState({
     name: user.name,
     email: user.email,
+    url: user.url,
   });
 
   const handleUpdate = (e) => {
@@ -49,6 +50,12 @@ const DashboardPage = () => {
               name="email"
               type="text"
               value={userData.email}
+              onChange={handleUpdate}
+            />
+            <input
+              type="text"
+              name="url"
+              value={userData.url}
               onChange={handleUpdate}
             />
             <button onClick={updateData} className="submit">
