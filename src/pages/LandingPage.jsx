@@ -18,7 +18,7 @@ const LandingPage = () => {
     setQueryObj((prev) => {
       if (!search) {
         delete queryObj.searchBy;
-        return {...prev}
+        return { ...prev };
       }
       return {
         ...prev,
@@ -119,10 +119,16 @@ const LandingPage = () => {
                 return (
                   <Link key={el._id} className="album" to={`/albums/${el._id}`}>
                     <img src={el.url} alt="" />
+                    <div className="name">{el.name}</div>
                     <div className="info">
-                      <div className="name">{el.name}</div>
-                      <div className="album-genre">{el.genre}</div>
-                      <div>{el.year}</div>
+                      <div className="main-info">
+                        <div className="album-genre">Genre: {el.genre}</div>
+                        <div className="name">{el.artist.name}</div>
+                      </div>
+                      <div className="artist-info">
+                        <div>Songs: {el.songs.length}</div>
+                        <div>{el.year}</div>
+                      </div>
                     </div>
                   </Link>
                 );
@@ -148,6 +154,18 @@ const LandingPage = () => {
 
       <style jsx>
         {`
+          .main-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .artist-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+          }
+
           .pages {
             display: flex;
             gap: 10px;
@@ -167,6 +185,8 @@ const LandingPage = () => {
             display: flex;
             justify-content: space-between;
             padding: 12px;
+            align-items: flex-end;
+            flex-wrap: wrap;
           }
 
           .name {
