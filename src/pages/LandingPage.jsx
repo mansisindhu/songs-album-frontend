@@ -59,7 +59,6 @@ const LandingPage = () => {
   useEffect(() => {
     if (queryObj) {
       const params = new URLSearchParams(queryObj).toString();
-
       if (params) {
         history.push({ search: params });
       }
@@ -87,12 +86,6 @@ const LandingPage = () => {
     <>
       <div className="albums-main">
         <div className="filters">
-          <input
-            value={search}
-            onChange={handleSearch}
-            type="text"
-            placeholder="Search albums"
-          />
           <div className="genre">
             <select onChange={handleFilters} name="genre">
               <option value="">Choose genre</option>
@@ -103,6 +96,13 @@ const LandingPage = () => {
               <option value="Classical">Classical</option>
             </select>
           </div>
+          <input
+            value={search}
+            onChange={handleSearch}
+            type="text"
+            placeholder="Search albums"
+          />
+
           <div className="sort">
             <select onChange={handleFilters} name="sortBy">
               <option value="">Sort By Year</option>
@@ -117,17 +117,21 @@ const LandingPage = () => {
             <>
               {albums.map((el) => {
                 return (
-                  <Link key={el._id} className="album" to={`/albums/${el._id}`}>
-                    <img src={el.url} alt="" />
+                  <Link
+                    key={el?._id}
+                    className="album"
+                    to={`/albums/${el._id}`}
+                  >
+                    <img src={el?.url} alt="" />
                     <div className="name">{el.name}</div>
                     <div className="info">
                       <div className="main-info">
-                        <div className="album-genre">Genre: {el.genre}</div>
-                        <div className="name">{el.artist.name}</div>
+                        <div className="album-genre">Genre: {el?.genre}</div>
+                        <div className="name">{el?.artist?.name}</div>
                       </div>
                       <div className="artist-info">
-                        <div>Songs: {el.songs.length}</div>
-                        <div>{el.year}</div>
+                        <div>Songs: {el?.songs.length}</div>
+                        <div>{el?.year}</div>
                       </div>
                     </div>
                   </Link>
@@ -151,6 +155,15 @@ const LandingPage = () => {
           ))}
         </div>
       </div>
+
+      <style jsx global>
+        {`
+          select {
+            padding: 14px;
+            border: 1px solid black;
+          }
+        `}
+      </style>
 
       <style jsx>
         {`
@@ -197,6 +210,14 @@ const LandingPage = () => {
           .album-genre {
             color: gray;
           }
+
+          .filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+          }
+
           .filters > input {
             outline: none;
             border: 1px solid black;
