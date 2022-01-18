@@ -57,33 +57,31 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="albums">
-          {user.albums.map((album) => {
+          {user.albums.map((album, i) => {
             return (
-              <div>
-                <div className="main">
-                  <div className="album-info">
-                    <div>
-                      <p className="name">{album.name}</p>
-                      <div className="more-info">
-                        <p>{album.genre}</p>
-                        <p>{album.year}</p>
-                      </div>
+              <div key={i} className="main">
+                <div className="album-info">
+                  <div>
+                    <p className="name">{album.name}</p>
+                    <div className="more-info">
+                      <p>{album.genre}</p>
+                      <p>{album.year}</p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="songs">
-                    {album.songs.map((el) => {
-                      return (
-                        <div key={el._id} className="song">
-                          <img src={el.url} alt="" />
-                          <div className="song-info">
-                            <p>{el.name}</p>
-                            <p>Duration: {el.duration}</p>
-                          </div>
+                <div className="songs">
+                  {album.songs.map((el) => {
+                    return (
+                      <div key={el._id} className="song">
+                        <img src={el.url} alt="" />
+                        <div className="song-info">
+                          <p>{el.name}</p>
+                          <p>Duration: {el.duration}</p>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             );
