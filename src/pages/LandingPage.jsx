@@ -11,21 +11,26 @@ const LandingPage = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    debounce();
   };
-
-  const [albums, setAlbums] = useState([]);
 
   const searchHandler = () => {
-    const newData = data.filter((el) => {
-      const name = el.name.toLowerCase();
-      const genre = el.genre.toLowerCase();
-      if (name.includes(search) || genre.includes(search)) {
-        return el;
+    setQueryObj((prev) => {
+      if (!search) {
+        delete queryObj.searchBy;
+        return {...prev}
       }
+      return {
+        ...prev,
+        page: 1,
+        searchBy: search,
+      };
     });
-    setAlbums(newData);
   };
 
+  const debounce = useDebouncedCallback(searchHandler, 500);
+
+  const [albums, setAlbums] = useState([]);
   const [queryObj, setQueryObj] = useState(null);
 
   const handlePageNumber = (page) => {
@@ -43,6 +48,7 @@ const LandingPage = () => {
       return {
         ...prev,
         [name]: value,
+        page: 1,
       };
     });
   };
@@ -116,6 +122,7 @@ const LandingPage = () => {
                     <div className="info">
                       <div className="name">{el.name}</div>
                       <div className="album-genre">{el.genre}</div>
+                      <div>{el.year}</div>
                     </div>
                   </Link>
                 );
