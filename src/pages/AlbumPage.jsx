@@ -28,16 +28,23 @@ const AlbumPage = () => {
       {album ? (
         <div className="main">
           <div className="album-info">
-            <img src={album.url} alt="" />
             <div>
-              <p className="name">{album.name}</p>
-              <div className="more-info">
-                <p>{album.genre}</p>
-                <p>{album.year}</p>
+              <img className="album-img" src={album.url} alt="" />
+              <div>
+                <p className="name">{album.name}</p>
+                <div className="more-info">
+                  <p>{album.genre}</p>
+                  <p>{album.year}</p>
+                </div>
               </div>
+            </div>
+            <div className="artist-info">
+              <img className="artist" src={album.artist.url} alt="" />
+              <div>{album.artist.name}</div>
             </div>
           </div>
 
+          <h2>Songs</h2>
           <div className="songs">
             {album.songs.map((el) => {
               return (
@@ -58,6 +65,13 @@ const AlbumPage = () => {
 
       <style jsx>
         {`
+          .artist-info > img {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
           .song-info {
             display: flex;
             justify-content: space-between;
@@ -77,6 +91,7 @@ const AlbumPage = () => {
             gap: 20px;
             align-items: center;
             justify-content: center;
+            margin-top: 20px;
           }
           .song {
             border: 1px solid black;
@@ -104,13 +119,14 @@ const AlbumPage = () => {
 
           .album-info {
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 40px;
-            gap: 16px;
+            justify-content: space-between;
+            width: 50%;
+            flex-wrap: wrap;
           }
 
-          .album-info > img {
+          .album-img {
             height: 300px;
             width: 300px;
             object-fit: cover;
